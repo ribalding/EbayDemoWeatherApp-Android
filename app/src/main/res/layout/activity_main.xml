@@ -14,14 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Epic Weather"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:textColor="@color/accent_material_dark"
         android:textAlignment="center"
-        android:textSize="90dp"
-        android:id="@+id/mainActvityTitleTextView" />
+        android:textSize="70dp"
+        android:id="@+id/mainActvityTitleTextView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
