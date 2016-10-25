@@ -1,5 +1,6 @@
 package ryanharvey.ebaydemoproject;
 
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -27,6 +28,7 @@ import okhttp3.Response;
 
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
     private GoogleApiClient googleApiClient;
+    private ProgressDialog dialog;
     @Bind(R.id.cityNameTextView) TextView cityNameTextView;
     @Bind(R.id.mainWeatherTextView) TextView mainWeatherTextView;
     @Bind(R.id.tempTextView) TextView tempTextView;
@@ -43,6 +45,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         cityNameTextView.setTypeface(bioRhymeFont);
         mainWeatherTextView.setTypeface(bioRhymeFont);
         tempTextView.setTypeface(bioRhymeFont);
+        dialog = ProgressDialog.show(this, "Please Hold", "Getting All The Weathers...", true);
 
         createGoogleAPIClient();
     }
@@ -71,6 +74,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    dialog.dismiss();
                    final ArrayList<String> results = WeatherService.processResults(response);
                     WeatherDisplayActivity.this.runOnUiThread(new Runnable(){
 
