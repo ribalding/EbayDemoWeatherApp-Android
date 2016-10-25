@@ -12,6 +12,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
 
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
     private GoogleApiClient googleApiClient;
@@ -37,9 +38,10 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             deviceLastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            Log.d("TEST", deviceLastLocation.toString());
+            WeatherService.findWeather(new LatLng(deviceLastLocation.getLatitude(), deviceLastLocation.getLongitude()));
         }
     }
 
