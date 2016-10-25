@@ -8,6 +8,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ryanharvey.ebaydemoproject.WeatherDisplayActivity"
-    android:background="@color/material_grey_800">
+    android:background="@color/material_blue_grey_800">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/cityNameTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="60dp"
+        android:textColor="@color/accent_material_dark" />
 </RelativeLayout>
