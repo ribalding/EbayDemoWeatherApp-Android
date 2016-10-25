@@ -41,6 +41,8 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         //Apply Bio Rhyme font to city name text view at run time
         Typeface bioRhymeFont = Typeface.createFromAsset(getAssets(), "fonts/BioRhyme-Regular.ttf");
         cityNameTextView.setTypeface(bioRhymeFont);
+        mainWeatherTextView.setTypeface(bioRhymeFont);
+        tempTextView.setTypeface(bioRhymeFont);
 
         createGoogleAPIClient();
     }
@@ -76,7 +78,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
                         public void run() {
                             cityNameTextView.setText(results.get(0));
                             mainWeatherTextView.setText(results.get(1));
-                            tempTextView.setText(results.get(2));
+                            tempTextView.setText(results.get(2) + "° F");
                         }
                     });
                 }

@@ -1,11 +1,5 @@
 package ryanharvey.ebaydemoproject;
 
-import android.util.Log;
-
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -33,7 +27,7 @@ public class WeatherService {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.WEATHER_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter("lat", lat);
         urlBuilder.addQueryParameter("lon", lng);
-        urlBuilder.addQueryParameter("APPID", Constants.API_KEY);
+        urlBuilder.addQueryParameter("APPID", Constants.OPEN_WEATHER_API_KEY);
         String url = urlBuilder.build().toString();
 
         Request request= new Request.Builder().url(url).build();
@@ -53,7 +47,7 @@ public class WeatherService {
 
                 //Extract relevant data in string form and add to results array
                 String mainWeather = weatherResultsJSONObject.getString("main");
-                String temp = Double.toString(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp")));
+                String temp = Double.toString(Math.round(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp"))));
                 String cityName = fullResultsJSONObject.getString("name");
                 results.add(cityName);
                 results.add(mainWeather);
