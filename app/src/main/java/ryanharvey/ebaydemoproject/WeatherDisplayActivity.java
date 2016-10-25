@@ -28,6 +28,8 @@ import okhttp3.Response;
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
     private GoogleApiClient googleApiClient;
     @Bind(R.id.cityNameTextView) TextView cityNameTextView;
+    @Bind(R.id.mainWeatherTextView) TextView mainWeatherTextView;
+    @Bind(R.id.tempTextView) TextView tempTextView;
 
 
     @Override
@@ -73,9 +75,10 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
                         @Override
                         public void run() {
                             cityNameTextView.setText(results.get(0));
+                            mainWeatherTextView.setText(results.get(1));
+                            tempTextView.setText(results.get(2));
                         }
                     });
-
                 }
             });
         }

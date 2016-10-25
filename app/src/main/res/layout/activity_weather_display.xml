@@ -13,10 +13,29 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
         android:id="@+id/cityNameTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="60dp"
-        android:textColor="@color/accent_material_dark" />
+        android:textColor="@color/material_deep_teal_200" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainWeatherTextView"
+        android:textColor="@color/material_deep_teal_200"
+        android:textSize="40dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:singleLine="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tempTextView"
+        android:layout_below="@+id/mainWeatherTextView"
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp"
+        android:textColor="@color/material_deep_teal_200" />
 </RelativeLayout>

@@ -45,14 +45,27 @@ public class WeatherService {
         ArrayList<String> results = new ArrayList<>();
         try {
             if (response.isSuccessful()) {
-                JSONObject resultsJSONObject = new JSONObject(response.body().string());
-                String name = resultsJSONObject.getString("name");
-                results.add(name);
+                //Parse JSON Response
+                JSONObject fullResultsJSONObject = new JSONObject(response.body().string());
+                JSONArray weatherResultsJSONARRAY = fullResultsJSONObject.getJSONArray("weather");
+                JSONObject tempResultsJSONObject = fullResultsJSONObject.getJSONObject("main");
+                JSONObject weatherResultsJSONObject = weatherResultsJSONARRAY.getJSONObject(0);
 
+                //Extract relevant data in string form and add to results array
+                String mainWeather = weatherResultsJSONObject.getString("main");
+                String temp = Double.toString(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp")));
+                String cityName = fullResultsJSONObject.getString("name");
+                results.add(cityName);
+                results.add(mainWeather);
+                results.add(temp);
             }
         } catch(Exception e){
             e.printStackTrace();
         }
         return results;
+    }
+
+    public static double convertKelvinToFarenheit(Double tempInKelvin){
+        return (((tempInKelvin - 273) * 9d/5) + 32);
     }
 }
