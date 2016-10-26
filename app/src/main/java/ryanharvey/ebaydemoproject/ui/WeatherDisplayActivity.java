@@ -80,6 +80,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        //If location permission is granted
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (!zipCodeIsSelected) {
