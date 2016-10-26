@@ -35,6 +35,19 @@ public class WeatherService {
         call.enqueue(callback);
     }
 
+    //Find Weather By Zip Code
+    public static void findWeather(String zipCode, Callback callback){
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.WEATHER_BASE_URL).newBuilder();
+        urlBuilder.addQueryParameter("zip", zipCode + ",us");
+        urlBuilder.addQueryParameter("APPID", Constants.OPEN_WEATHER_API_KEY);
+        String url = urlBuilder.build().toString();
+
+        Request request= new Request.Builder().url(url).build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+    }
+
     public static ArrayList<String> processResults(Response response){
         ArrayList<String> results = new ArrayList<>();
         try {
@@ -47,7 +60,7 @@ public class WeatherService {
 
                 //Extract relevant data in string form and add to results array
                 String mainWeather = weatherResultsJSONObject.getString("main");
-                String temp = Double.toString(Math.round(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp"))));
+                String temp = Integer.toString((int)(Math.round(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp")))));
                 String cityName = fullResultsJSONObject.getString("name");
                 results.add(cityName);
                 results.add(mainWeather);

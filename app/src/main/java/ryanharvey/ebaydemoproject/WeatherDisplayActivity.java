@@ -29,6 +29,8 @@ import okhttp3.Response;
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
     private GoogleApiClient googleApiClient;
     private ProgressDialog dialog;
+    private String zipCode;
+    private boolean zipCodeIsSelected;
     @Bind(R.id.cityNameTextView) TextView cityNameTextView;
     @Bind(R.id.mainWeatherTextView) TextView mainWeatherTextView;
     @Bind(R.id.tempTextView) TextView tempTextView;
@@ -40,11 +42,18 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         setContentView(R.layout.activity_weather_display);
         ButterKnife.bind(this);
 
-        //Apply Bio Rhyme font to city name text view at run time
+        //Unpack Intent
+        zipCode = getIntent().getStringExtra("zipCode");
+        zipCodeIsSelected = getIntent().getBooleanExtra("zipCodeSelected", false);
+
+
+        //Apply Bio Rhyme font to text views at run time
         Typeface bioRhymeFont = Typeface.createFromAsset(getAssets(), "fonts/BioRhyme-Regular.ttf");
         cityNameTextView.setTypeface(bioRhymeFont);
         mainWeatherTextView.setTypeface(bioRhymeFont);
         tempTextView.setTypeface(bioRhymeFont);
+
+        //Open Progress Dialog
         dialog = ProgressDialog.show(this, "Please Hold", "Getting All The Weathers...", true);
 
         createGoogleAPIClient();
@@ -64,29 +73,53 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
     public void onConnected(@Nullable Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            Location deviceLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            LatLng deviceLocationLatLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-            WeatherService.findWeather(deviceLocationLatLng, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
+            if (!zipCodeIsSelected) {
+                Location deviceLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                LatLng deviceLocationLatLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+                WeatherService.findWeather(deviceLocationLatLng, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    dialog.dismiss();
-                   final ArrayList<String> results = WeatherService.processResults(response);
-                    WeatherDisplayActivity.this.runOnUiThread(new Runnable(){
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        dialog.dismiss();
+                        final ArrayList<String> results = WeatherService.processResults(response);
+                        WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            cityNameTextView.setText(results.get(0));
-                            mainWeatherTextView.setText(results.get(1));
-                            tempTextView.setText(results.get(2) + "° F");
-                        }
-                    });
-                }
-            });
+                            @Override
+                            public void run() {
+                                cityNameTextView.setText(results.get(0));
+                                mainWeatherTextView.setText(results.get(1));
+                                tempTextView.setText(results.get(2) + "° F");
+                            }
+                        });
+                    }
+                });
+            } else {
+                WeatherService.findWeather(zipCode, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        dialog.dismiss();
+                        final ArrayList<String> results = WeatherService.processResults(response);
+                        WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                cityNameTextView.setText(results.get(0));
+                                mainWeatherTextView.setText(results.get(1));
+                                tempTextView.setText(results.get(2) + "° F");
+                            }
+                        });
+                    }
+                });
+            }
         }
     }
 

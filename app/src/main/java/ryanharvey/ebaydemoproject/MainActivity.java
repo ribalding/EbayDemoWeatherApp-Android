@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(R.id.weatherDisplayButton) Button weatherDisplayButton;
     @Bind(R.id.mainActvityTitleTextView) TextView mainActivityTitleTextView;
+    @Bind(R.id.zipCodeButton) Button zipCodeButton;
+    @Bind(R.id.zipCodeEditText) EditText zipCodeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface bioRhymeFont = Typeface.createFromAsset(getAssets(), "fonts/BioRhyme-Regular.ttf");
         mainActivityTitleTextView.setTypeface(bioRhymeFont);
 
+        //Bind Buttons to Click Listener
         weatherDisplayButton.setOnClickListener(this);
+        zipCodeButton.setOnClickListener(this);
 
         enableMyLocation();
 
@@ -48,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view == weatherDisplayButton){
             //On Weather Display button click, start Weather Display Activity
             Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
+            weatherDisplayIntent.putExtra("zipCodeSelected", false);
+            startActivity(weatherDisplayIntent);
+        } else if (view == zipCodeButton){
+            Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
+            weatherDisplayIntent.putExtra("zipCodeSelected", true);
+            weatherDisplayIntent.putExtra("zipCode", zipCodeEditText.getText().toString());
             startActivity(weatherDisplayIntent);
         }
     }
