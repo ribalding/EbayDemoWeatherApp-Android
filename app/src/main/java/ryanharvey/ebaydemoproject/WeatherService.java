@@ -19,6 +19,7 @@ import okhttp3.Response;
  */
 public class WeatherService {
 
+    //Find Weather By LatLng
     public static void findWeather(LatLng latLng, Callback callback){
         String lat = Double.toString(latLng.latitude);
         String lng = Double.toString(latLng.longitude);

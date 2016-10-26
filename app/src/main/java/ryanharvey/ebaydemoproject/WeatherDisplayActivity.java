@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -24,8 +26,9 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
-public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
+public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, View.OnClickListener{
 
     private GoogleApiClient googleApiClient;
     private ProgressDialog dialog;
@@ -34,6 +37,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
     @Bind(R.id.cityNameTextView) TextView cityNameTextView;
     @Bind(R.id.mainWeatherTextView) TextView mainWeatherTextView;
     @Bind(R.id.tempTextView) TextView tempTextView;
+    @Bind(R.id.backButton) Button backButton;
 
 
     @Override
@@ -41,6 +45,8 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_display);
         ButterKnife.bind(this);
+
+        backButton.setOnClickListener(this);
 
         //Unpack Intent
         zipCode = getIntent().getStringExtra("zipCode");
@@ -54,7 +60,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         tempTextView.setTypeface(bioRhymeFont);
 
         //Open Progress Dialog
-        dialog = ProgressDialog.show(this, "Please Hold", "Getting All The Weathers...", true);
+        dialog = ProgressDialog.show(this, "Please Hold", "Getting All Your Weathers...", true);
 
         createGoogleAPIClient();
     }
@@ -80,6 +86,9 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
             } else {
                 WeatherService.findWeather(zipCode, weatherDisplayCallback);
             }
+        } else {
+            PermissionUtils.requestPermission(WeatherDisplayActivity.this, Constants.LOCATION_PERMISSION_REQUEST_CODE,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION, true);
         }
     }
 
@@ -120,5 +129,11 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
                 });
             }
     };
-}
 
+    @Override
+    public void onClick(View view) {
+        if (view == backButton){
+            onBackPressed();
+        }
+    }
+}

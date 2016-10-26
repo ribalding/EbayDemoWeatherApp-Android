@@ -1,4 +1,4 @@
-package ryanharvey.ebaydemoproject;
+package ryanharvey.ebaydemoproject.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ryanharvey.ebaydemoproject.Constants;
+import ryanharvey.ebaydemoproject.R;
+import ryanharvey.ebaydemoproject.WeatherDisplayActivity;
 import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
