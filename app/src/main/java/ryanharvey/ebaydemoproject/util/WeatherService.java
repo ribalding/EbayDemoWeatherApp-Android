@@ -1,4 +1,4 @@
-package ryanharvey.ebaydemoproject;
+package ryanharvey.ebaydemoproject.util;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -13,6 +13,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import ryanharvey.ebaydemoproject.constants.Constants;
 
 /**
  * Created by Ryan on 10/24/2016.
@@ -61,7 +62,7 @@ public class WeatherService {
 
                 //Extract relevant data in string form and add to results array
                 String mainWeather = weatherResultsJSONObject.getString("main");
-                String temp = Integer.toString((int)(Math.round(WeatherService.convertKelvinToFarenheit(tempResultsJSONObject.getDouble("temp")))));
+                String temp = Integer.toString((int)(Math.round(WeatherService.convertKelvinToFahrenheit(tempResultsJSONObject.getDouble("temp")))));
                 String cityName = fullResultsJSONObject.getString("name");
                 results.add(cityName);
                 results.add(mainWeather);
@@ -73,7 +74,8 @@ public class WeatherService {
         return results;
     }
 
-    public static double convertKelvinToFarenheit(Double tempInKelvin){
+    // Convert Kelvin to Fahrenheit
+    public static double convertKelvinToFahrenheit(Double tempInKelvin){
         return (((tempInKelvin - 273) * 9d/5) + 32);
     }
 }

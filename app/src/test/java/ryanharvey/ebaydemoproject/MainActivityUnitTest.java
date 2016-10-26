@@ -34,13 +34,13 @@ public class MainActivityUnitTest {
 
     @Test
     public void validateTextViewContent() {
-        TextView mainActivityTitleTextView = (TextView) activity.findViewById(R.id.mainActvityTitleTextView);
-        assertTrue("Epic Weather".equals(mainActivityTitleTextView.getText().toString()));
+        TextView mainActivityTitleTextView = (TextView) activity.findViewById(R.id.betterWeatherTitleTextView);
+        assertTrue("Better Weather".equals(mainActivityTitleTextView.getText().toString()));
     }
 
     @Test
     public void weatherDisplayActivityStarted() {
-        activity.findViewById(R.id.weatherDisplayButton).performClick();
+        activity.findViewById(R.id.localWeatherDisplayButton).performClick();
         Intent expectedIntent = new Intent(activity, WeatherDisplayActivity.class);
         ShadowActivity shadowActivity = org.robolectric.Shadows.shadowOf(activity);
         Intent actualIntent = shadowActivity.getNextStartedActivity();

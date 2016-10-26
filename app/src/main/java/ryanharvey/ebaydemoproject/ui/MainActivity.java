@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import ryanharvey.ebaydemoproject.Constants;
+import ryanharvey.ebaydemoproject.constants.Constants;
 import ryanharvey.ebaydemoproject.R;
 import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(R.id.localWeatherDisplayButton) Button weatherDisplayButton;
     @Bind(R.id.betterWeatherTitleTextView) TextView mainActivityTitleTextView;
-    @Bind(R.id.zipCodeButton) Button zipCodeButton;
+    @Bind(R.id.zipCodeWeatherDisplayButton) Button zipCodeButton;
     @Bind(R.id.zipCodeEditText) EditText zipCodeEditText;
 
     @Override
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         zipCodeButton.setOnClickListener(this);
 
         enableMyLocation();
-
     }
 
     // If location permission has not been granted, open request permission dialog

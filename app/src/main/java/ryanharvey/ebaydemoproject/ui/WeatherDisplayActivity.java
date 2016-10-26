@@ -26,9 +26,9 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import ryanharvey.ebaydemoproject.Constants;
+import ryanharvey.ebaydemoproject.constants.Constants;
 import ryanharvey.ebaydemoproject.R;
-import ryanharvey.ebaydemoproject.WeatherService;
+import ryanharvey.ebaydemoproject.util.WeatherService;
 import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, View.OnClickListener{
@@ -80,12 +80,19 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
     }
 
 
+    //On Google Play Client Connected
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //If location permission is granted
+
+        //If location permission is granted -
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            //If search mode
+
+            // If search is local, get device location and pass to WeatherService.findWeather, along with a callback
+            // to handle data processing once the response has been received.  If search is by zip code, pass the
+            // zip code and callback.
+
             if (!zipCodeIsSelected) {
                 Location deviceLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
                 LatLng deviceLocationLatLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
@@ -115,6 +122,9 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         super.onStop();
     }
 
+    // After JSON response has been received successfully, process results and set text views
+    // to display city name, main weather and temperature in fahrenheit.
+
     private Callback weatherDisplayCallback = new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -124,14 +134,14 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 dialog.dismiss();
-                final ArrayList<String> results = WeatherService.processResults(response);
+                final ArrayList<String> weatherResults = WeatherService.processResults(response);
                 WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        cityNameTextView.setText(results.get(0));
-                        mainWeatherTextView.setText(results.get(1));
-                        tempTextView.setText(results.get(2) + "°F");
+                        cityNameTextView.setText(weatherResults.get(0));
+                        mainWeatherTextView.setText(weatherResults.get(1));
+                        tempTextView.setText(weatherResults.get(2) + "°F");
                     }
                 });
             }
