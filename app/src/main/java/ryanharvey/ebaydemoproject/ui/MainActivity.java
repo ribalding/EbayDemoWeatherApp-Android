@@ -11,11 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ryanharvey.ebaydemoproject.Constants;
 import ryanharvey.ebaydemoproject.R;
-import ryanharvey.ebaydemoproject.WeatherDisplayActivity;
 import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,10 +61,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             weatherDisplayIntent.putExtra("zipCodeSelected", false);
             startActivity(weatherDisplayIntent);
         } else if (view == zipCodeButton){
-            Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
-            weatherDisplayIntent.putExtra("zipCodeSelected", true);
-            weatherDisplayIntent.putExtra("zipCode", zipCodeEditText.getText().toString());
-            startActivity(weatherDisplayIntent);
+            boolean isValidZip = isValidZipCode(zipCodeEditText.getText().toString());
+            if(isValidZip) {
+                Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
+                weatherDisplayIntent.putExtra("zipCodeSelected", true);
+                weatherDisplayIntent.putExtra("zipCode", zipCodeEditText.getText().toString());
+                startActivity(weatherDisplayIntent);
+            }
+        }
+    }
+
+    private boolean isValidZipCode(String zip) {
+        String zipRegEx = "^[0-9]{5}(?:-[0-9]{4})?$";
+        Pattern pattern = Pattern.compile(zipRegEx);
+        Matcher matcher = pattern.matcher(zip);
+        if (matcher.matches()){
+            return true;
+        } else {
+            zipCodeEditText.setError("Please Enter A Valid Zip Code");
+            return false;
         }
     }
 }

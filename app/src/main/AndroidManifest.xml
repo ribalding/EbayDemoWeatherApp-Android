@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WeatherDisplayActivity"
+        <activity android:name=".ui.WeatherDisplayActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

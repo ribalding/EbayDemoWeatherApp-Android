@@ -1,4 +1,4 @@
-package ryanharvey.ebaydemoproject;
+package ryanharvey.ebaydemoproject.ui;
 
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
@@ -26,6 +26,9 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import ryanharvey.ebaydemoproject.Constants;
+import ryanharvey.ebaydemoproject.R;
+import ryanharvey.ebaydemoproject.WeatherService;
 import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, View.OnClickListener{
@@ -124,7 +127,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
                     public void run() {
                         cityNameTextView.setText(results.get(0));
                         mainWeatherTextView.setText(results.get(1));
-                        tempTextView.setText(results.get(2) + "° F");
+                        tempTextView.setText(results.get(2) + "°F");
                     }
                 });
             }
