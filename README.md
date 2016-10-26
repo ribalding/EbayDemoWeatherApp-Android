@@ -12,7 +12,7 @@ A demo Android app which allows users to access the current weather conditions i
 * Clone this repository 
 * Open Android Studio
 * Open project in Android Studio
-* Navigate to the Constants.java file and paste your API Key in "API KEY GOES HERE"
+* Navigate to the Constants.java file and paste your API Key in the designated spot
 * Make sure you have an Emulator installed or an Android device connected to your computer
 * Click the "Run" button and select your device
 
