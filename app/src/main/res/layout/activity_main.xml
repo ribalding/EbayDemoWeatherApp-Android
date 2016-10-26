@@ -28,35 +28,37 @@
         android:id="@+id/weatherDisplayButton"
         android:background="@color/material_deep_teal_200"
         android:textColor="#eaeaea"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
+        android:textSize="25dp"
+        android:layout_above="@+id/orTextView"
         android:layout_alignParentStart="true"
-        android:textSize="25dp" />
+        android:layout_marginBottom="30dp"
+        android:layout_toStartOf="@+id/zipCodeButton"
+        android:layout_alignEnd="@+id/zipCodeButton" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OR"
         android:id="@+id/orTextView"
-        android:layout_below="@+id/weatherDisplayButton"
-        android:layout_centerHorizontal="true"
         android:textColor="@color/material_deep_teal_200"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp" />
+        android:layout_above="@+id/zipCodeEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/zipCodeEditText"
-        android:layout_below="@+id/orTextView"
-        android:layout_marginTop="20dp"
         android:hint="Search By Zip Code"
         android:textColorHint="#eaeaea"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/zipCodeButton"
         android:layout_marginRight="25dp"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="#eaeaea"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/zipCodeButton" />
 
     <Button
         style="?android:attr/buttonStyleSmall"

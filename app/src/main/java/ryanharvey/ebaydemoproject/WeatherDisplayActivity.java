@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.AppIndex;
@@ -27,6 +26,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherDisplayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks{
+
     private GoogleApiClient googleApiClient;
     private ProgressDialog dialog;
     private String zipCode;
@@ -76,49 +76,9 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
             if (!zipCodeIsSelected) {
                 Location deviceLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
                 LatLng deviceLocationLatLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-                WeatherService.findWeather(deviceLocationLatLng, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        dialog.dismiss();
-                        final ArrayList<String> results = WeatherService.processResults(response);
-                        WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                cityNameTextView.setText(results.get(0));
-                                mainWeatherTextView.setText(results.get(1));
-                                tempTextView.setText(results.get(2) + "° F");
-                            }
-                        });
-                    }
-                });
+                WeatherService.findWeather(deviceLocationLatLng, weatherDisplayCallback);
             } else {
-                WeatherService.findWeather(zipCode, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        dialog.dismiss();
-                        final ArrayList<String> results = WeatherService.processResults(response);
-                        WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                cityNameTextView.setText(results.get(0));
-                                mainWeatherTextView.setText(results.get(1));
-                                tempTextView.setText(results.get(2) + "° F");
-                            }
-                        });
-                    }
-                });
+                WeatherService.findWeather(zipCode, weatherDisplayCallback);
             }
         }
     }
@@ -138,4 +98,27 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         googleApiClient.disconnect();
         super.onStop();
     }
+
+    private Callback weatherDisplayCallback = new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                dialog.dismiss();
+                final ArrayList<String> results = WeatherService.processResults(response);
+                WeatherDisplayActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        cityNameTextView.setText(results.get(0));
+                        mainWeatherTextView.setText(results.get(1));
+                        tempTextView.setText(results.get(2) + "° F");
+                    }
+                });
+            }
+    };
 }
+
