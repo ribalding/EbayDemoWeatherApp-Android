@@ -13,11 +13,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Epic Weather"
+        android:text="Better Weather"
         android:textColor="@color/accent_material_dark"
         android:textAlignment="center"
         android:textSize="70dp"
-        android:id="@+id/mainActvityTitleTextView"
+        android:id="@+id/betterWeatherTitleTextView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp" />
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find Weather Near Me"
-        android:id="@+id/weatherDisplayButton"
+        android:id="@+id/localWeatherDisplayButton"
         android:background="@color/material_deep_teal_200"
         android:textColor="#eaeaea"
         android:textSize="25dp"

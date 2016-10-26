@@ -1,3 +1,11 @@
+/*
+*  This is the Main Activity which the user will be presented with when opening the app.
+*  It gives the app name and two options for finding information about the weather: by the device's
+*  location or by a user-submitted zip code (which is validated before submission).  When either of
+*  these options are accepted, the user is moved to the WeatherDisplayActivity.
+*
+ */
+
 package ryanharvey.ebaydemoproject.ui;
 
 import android.content.Intent;
@@ -22,8 +30,8 @@ import ryanharvey.ebaydemoproject.util.PermissionUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.weatherDisplayButton) Button weatherDisplayButton;
-    @Bind(R.id.mainActvityTitleTextView) TextView mainActivityTitleTextView;
+    @Bind(R.id.localWeatherDisplayButton) Button weatherDisplayButton;
+    @Bind(R.id.betterWeatherTitleTextView) TextView mainActivityTitleTextView;
     @Bind(R.id.zipCodeButton) Button zipCodeButton;
     @Bind(R.id.zipCodeEditText) EditText zipCodeEditText;
 
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    // If location permission has not been granted, open request permission dialog
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -56,30 +65,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view == weatherDisplayButton){
-            //On Weather Display button click, start Weather Display Activity
+            //On Weather Display button click, start Weather Display Activity and set zipCodeSelected to false
             Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
             weatherDisplayIntent.putExtra("zipCodeSelected", false);
             startActivity(weatherDisplayIntent);
         } else if (view == zipCodeButton){
-            boolean isValidZip = isValidZipCode(zipCodeEditText.getText().toString());
-            if(isValidZip) {
+            // If Zip Code Button is clicked and the zipcode is valid, set zipCodeSelected to true
+            // and pass zipCode to weather display activity, then start activity
+            if(isValidZipCode(zipCodeEditText.getText().toString())) {
                 Intent weatherDisplayIntent = new Intent(MainActivity.this, WeatherDisplayActivity.class);
                 weatherDisplayIntent.putExtra("zipCodeSelected", true);
                 weatherDisplayIntent.putExtra("zipCode", zipCodeEditText.getText().toString());
                 startActivity(weatherDisplayIntent);
+            } else {
+                zipCodeEditText.setError("Please Enter A Valid Zip Code");
             }
         }
     }
 
+    //Validate a zip code
     private boolean isValidZipCode(String zip) {
         String zipRegEx = "^[0-9]{5}(?:-[0-9]{4})?$";
         Pattern pattern = Pattern.compile(zipRegEx);
         Matcher matcher = pattern.matcher(zip);
-        if (matcher.matches()){
-            return true;
-        } else {
-            zipCodeEditText.setError("Please Enter A Valid Zip Code");
-            return false;
-        }
+        return (matcher.matches());
     }
 }

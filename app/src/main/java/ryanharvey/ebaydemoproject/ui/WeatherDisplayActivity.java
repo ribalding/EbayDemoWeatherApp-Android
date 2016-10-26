@@ -68,6 +68,7 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         createGoogleAPIClient();
     }
 
+    //Create Google API Client
     public void createGoogleAPIClient(){
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this)
@@ -78,11 +79,13 @@ public class WeatherDisplayActivity extends AppCompatActivity implements GoogleA
         }
     }
 
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         //If location permission is granted
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+            //If search mode
             if (!zipCodeIsSelected) {
                 Location deviceLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
                 LatLng deviceLocationLatLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
